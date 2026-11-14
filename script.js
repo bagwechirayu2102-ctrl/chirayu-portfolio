@@ -38,3 +38,35 @@ document.querySelectorAll(".nav-links a").forEach(link => {
     });
 
 });
+
+// STEP 7 - SCROLL REVEAL ANIMATIONS
+
+document.addEventListener("DOMContentLoaded", () => {
+    const revealElements = document.querySelectorAll(
+        ".skill-card, .project-card, .education-card, .contact-card"
+    );
+
+    // Show everything if animations are not supported
+    if (!("IntersectionObserver" in window)) {
+        revealElements.forEach(element => {
+            element.classList.add("visible");
+        });
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15
+    });
+
+    revealElements.forEach(element => {
+        element.classList.add("reveal");
+        observer.observe(element);
+    });
+});
